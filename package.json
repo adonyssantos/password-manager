@@ -6,6 +6,7 @@
     "start": "vite --open",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "emulators": "npx firebase emulators:start",
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\"",
     "lint": "eslint src/ --ext .ts,.tsx, --fix",
