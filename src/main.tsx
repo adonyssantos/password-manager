@@ -1,9 +1,12 @@
+import { BrowserRouter } from 'react-router-dom';
+import HomeApp from './App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import HomeApp from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <HomeApp />
+    <BrowserRouter>
+      <HomeApp />
+    </BrowserRouter>
   </React.StrictMode>
 );
