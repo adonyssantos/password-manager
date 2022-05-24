@@ -1,23 +1,18 @@
-import { Link, Outlet } from 'react-router-dom';
-import { useUserState } from '../hooks';
+import { Container } from '@mui/material';
+import { Footer, Header, Nav } from '../components';
+import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
-  const { user } = useUserState();
   return (
-    <div>
-      <header>
-        {user && (
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/profile">Profile</Link>
-          </nav>
-        )}
-      </header>
-      <main>
+    <>
+      <Header title="Password Manager">
+        <Nav />
+      </Header>
+      <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
         <Outlet />
-      </main>
-      <footer>Footer</footer>
-    </div>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
