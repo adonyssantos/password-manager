@@ -5,5 +5,5 @@ import HomeApp from './App';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HomeApp />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
