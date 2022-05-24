@@ -24,3 +24,4 @@ export interface PasswordsFolder {
 export type PasswordsFolders = PasswordsFolder[] | [];
 export type Passwords = Password[] | [];
 export type Users = User[] | [];
+export type PasswordGroupByFolder = unknown;

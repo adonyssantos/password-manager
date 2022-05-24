@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import HomeApp from './App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -6,7 +7,9 @@ import ReactDOM from 'react-dom/client';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <HomeApp />
+      <RecoilRoot>
+        <HomeApp />
+      </RecoilRoot>
     </BrowserRouter>
   </React.StrictMode>
 );
