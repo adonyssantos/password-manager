@@ -21,9 +21,6 @@ const Nav = () => {
           <CustomLink to="/folders" component={Link}>
             Folders
           </CustomLink>
-          <CustomLink to="/profile" component={Link}>
-            Profile
-          </CustomLink>
           <CustomLink onClick={handleLogout} component={Button}>
             Sign Out
           </CustomLink>
