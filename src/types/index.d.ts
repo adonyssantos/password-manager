@@ -10,7 +10,7 @@ export interface Password {
   name: string;
   url: string;
   username: string;
-  password: string;
+  key: string;
   folderId: string | null;
   userId: string;
 }

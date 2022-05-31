@@ -1,4 +1,4 @@
-import { Home, Layout, SignIn, Profile, SignUp } from './views';
+import { Dashboard, Layout, SignIn, Profile, SignUp } from './views';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useUserState } from './hooks/user';
 
@@ -10,7 +10,7 @@ const HomeApp = () => {
       <Route path="/" element={<Layout />}>
         {user ? (
           <>
-            <Route index element={<Home />} />
+            <Route index element={<Dashboard />} />
             <Route path="profile" element={<Profile />} />
           </>
         ) : (

@@ -1,4 +1,4 @@
-export { default as Home } from './home';
+export { default as Dashboard } from './dashboard';
 export { default as Layout } from './layout';
 export { default as SignUp } from './signup';
 export { default as SignIn } from './signin';
