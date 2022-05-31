@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { FolderItem, FolderGroup } from '../components';
+import { FolderItem, FolderGroup, PlusButton } from '../components';
 
 const folders = [
   {
@@ -44,6 +44,8 @@ const Folder = () => {
           <FolderItem key={folder.id} folder={folder} onDelete={handlerDelete} onRename={handlerRename} />
         ))}
       </FolderGroup>
+
+      <PlusButton title="Add Folder" onClick={() => alert('Add new folder')} />
     </Box>
   );
 };

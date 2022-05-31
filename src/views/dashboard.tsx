@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { PasswordGroup, PasswordItem } from '../components';
+import { PasswordGroup, PasswordItem, PlusButton } from '../components';
 
 const passwords = [
   {
@@ -48,6 +48,8 @@ const Dashboard = () => {
           return <PasswordItem key={password.id} password={password} />;
         })}
       </PasswordGroup>
+
+      <PlusButton title="Add Password" onClick={() => alert('Add new password')} />
     </Box>
   );
 };
