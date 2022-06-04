@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { PasswordGroup, PasswordItem, PlusButton } from '../components';
 
 const passwords = [
@@ -32,6 +33,8 @@ const passwords = [
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 3 }}>
@@ -49,7 +52,7 @@ const Dashboard = () => {
         })}
       </PasswordGroup>
 
-      <PlusButton title="Add Password" onClick={() => alert('Add new password')} />
+      <PlusButton title="Add Password" onClick={() => navigate('/passwords/add')} />
     </Box>
   );
 };

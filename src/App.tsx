@@ -1,26 +1,28 @@
-import { Dashboard, Folders, Layout, SignIn, SignUp } from './views';
+import { AddPassword, Dashboard, Folders, Layout, PrivateRouter, SignIn, SignUp } from './views';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useUserState } from './hooks/user';
 
 const HomeApp = () => {
-  const { user } = useUserState();
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {user ? (
-          <>
+        <Route path="/" element={<PrivateRouter />}>
+          {/* Private routes */}
+          <Route index element={<Navigate to="passwords" />} />
+          <Route path="passwords">
             <Route index element={<Dashboard />} />
-            <Route path="folders" element={<Folders />} />
-          </>
-        ) : (
-          <>
-            <Route index element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
-          </>
-        )}
+            <Route path="add" element={<AddPassword />} />
+          </Route>
+          <Route path="folders">
+            <Route index element={<Folders />} />
+            <Route path="add" element={<div>Add folder</div>} />
+          </Route>
+        </Route>
+
+        {/* Public routes */}
+        <Route path="sign-in" element={<SignIn />} />
+        <Route path="sign-up" element={<SignUp />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Route>
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

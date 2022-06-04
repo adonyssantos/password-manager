@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { FolderItem, FolderGroup, PlusButton } from '../components';
+import { useNavigate } from 'react-router-dom';
 
 const folders = [
   {
@@ -20,6 +21,8 @@ const folders = [
 ];
 
 const Folder = () => {
+  const navigate = useNavigate();
+
   const handlerRename = (folder: any) => {
     console.log('rename', folder);
   };
@@ -45,7 +48,7 @@ const Folder = () => {
         ))}
       </FolderGroup>
 
-      <PlusButton title="Add Folder" onClick={() => alert('Add new folder')} />
+      <PlusButton title="Add Folder" onClick={() => navigate('/folders/add')} />
     </Box>
   );
 };

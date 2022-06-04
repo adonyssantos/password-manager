@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
 import { useUserState } from '../hooks';
 import React from 'react';
@@ -7,16 +7,17 @@ import React from 'react';
 const SignIn = () => {
   const [disableButton, setDisableButton] = React.useState<boolean>(false);
   const { setUser } = useUserState();
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const data = new FormData(event.currentTarget);
-    const email = data.get('email') as User['email'];
+    const username = data.get('username') as User['username'];
     const masterPassword = data.get('masterPassword') as User['masterPassword'];
 
     event.preventDefault();
     setDisableButton(true);
 
-    if (!data.get('email') || !data.get('masterPassword') || !data) {
+    if (!data.get('username') || !data.get('masterPassword') || !data) {
       setDisableButton(false);
       alert('Please fill all fields');
       return;
@@ -26,10 +27,12 @@ const SignIn = () => {
     setTimeout(() => {
       setUser({
         uid: Math.random().toString(16),
-        email,
+        username,
         masterPassword,
-        displayName: email,
+        displayName: username,
       });
+
+      navigate('/');
     }, 3000);
   };
 
@@ -45,7 +48,7 @@ const SignIn = () => {
         Password Manager Sign In
       </Typography>
       <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
-        <TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
+        <TextField margin="normal" required fullWidth id="username" label="Email Address" name="username" autoComplete="email" autoFocus />
         <TextField
           margin="normal"
           required
