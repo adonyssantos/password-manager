@@ -1,15 +1,71 @@
-import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Button, MenuItem } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUserState } from '../hooks';
 import CustomLink from './custom-link';
 
-const Nav = () => {
+interface NavProps {
+  type: 'default' | 'mobile';
+  handleCloseNavMenu: () => void;
+}
+
+const Nav = ({ type, handleCloseNavMenu }: NavProps) => {
   const { user, setUser } = useUserState();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setUser(null);
     console.log('logged out');
   };
+
+  if (type === 'mobile') {
+    return user ? (
+      <>
+        <MenuItem
+          onClick={() => {
+            navigate('/passwords');
+            handleCloseNavMenu();
+          }}
+        >
+          Dashboard
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate('/folders');
+            handleCloseNavMenu();
+          }}
+        >
+          Folders
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleLogout();
+            handleCloseNavMenu();
+          }}
+        >
+          Sign Out
+        </MenuItem>
+      </>
+    ) : (
+      <>
+        <MenuItem
+          onClick={() => {
+            navigate('/sign-in');
+            handleCloseNavMenu();
+          }}
+        >
+          Sign In
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate('/sign-up');
+            handleCloseNavMenu();
+          }}
+        >
+          Sign Up
+        </MenuItem>
+      </>
+    );
+  }
 
   return (
     <nav>
@@ -27,10 +83,10 @@ const Nav = () => {
         </>
       ) : (
         <>
-          <CustomLink to="/" component={Link}>
+          <CustomLink to="/sign-in" component={Link}>
             Sign In
           </CustomLink>
-          <CustomLink to="/signup" component={Link}>
+          <CustomLink to="/sign-up" component={Link}>
             Sign Up
           </CustomLink>
         </>
