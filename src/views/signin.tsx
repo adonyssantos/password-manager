@@ -62,7 +62,7 @@ const SignIn = () => {
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
           Sign In
         </Button>
-        <Button to="signup" type="button" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
+        <Button to="/sign-up" type="button" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
           Sign Up
         </Button>
       </Box>

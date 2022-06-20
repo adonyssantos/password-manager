@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
 import { useUserState } from '../hooks';
 import React from 'react';
@@ -7,18 +7,19 @@ import React from 'react';
 const SignUp = () => {
   const [disableButton, setDisableButton] = React.useState<boolean>(false);
   const { setUser } = useUserState();
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const data = new FormData(event.currentTarget);
     const displayName = `${data.get('firstName')} ${data.get('lastName')}`;
-    const email = data.get('email') as User['email'];
+    const username = data.get('email') as User['username'];
     const masterPassword = data.get('masterPassword') as User['masterPassword'];
     const confirmMasterPassword = data.get('confirmMasterPassword') as User['masterPassword'];
 
     event.preventDefault();
     setDisableButton(true);
 
-    if (!email || !masterPassword || !data) {
+    if (!username || !masterPassword || !data) {
       setDisableButton(false);
       alert('Please fill all fields');
       return;
@@ -68,10 +69,11 @@ const SignUp = () => {
     setTimeout(() => {
       setUser({
         uid: Math.random().toString(16),
-        email,
+        username,
         masterPassword,
         displayName,
       });
+      navigate('/');
     }, 3000);
   };
 

@@ -25,7 +25,7 @@ const PasswordItem = ({ password }: Props) => {
     <>
       {/* Mobile */}
       <ListItem>
-        <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4 }}>
+        <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 4, width: '100%' }}>
           <Box sx={{ display: 'flex' }}>
             <Avatar sx={{ mr: 2, backgroundColor: 'primary.main' }}>
               <EnhancedEncryptionIcon />
