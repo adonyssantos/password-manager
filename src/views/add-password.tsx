@@ -1,10 +1,8 @@
 import { Box, Button, Select, TextField, Typography } from '@mui/material';
-import { useUserState } from '../hooks';
-import React from 'react';
+import { useState, FormEvent } from 'react';
 
 const AddPassword = () => {
-  const [disableButton, setDisableButton] = React.useState<boolean>(false);
-  const { user, setUser } = useUserState();
+  const [disableButton, setDisableButton] = useState<boolean>(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     alert('Test');
