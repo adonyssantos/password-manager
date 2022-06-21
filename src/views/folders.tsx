@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { FolderItem, FolderGroup, PlusButton } from '../components';
 import { useNavigate } from 'react-router-dom';
+import { SEO } from '../components';
 
 const folders = [
   {
@@ -32,24 +33,26 @@ const Folder = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Folders
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          The folders are used to organize your passwords by category.
-        </Typography>
+    <SEO title="Folders">
+      <Box sx={{ p: 3 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Folders
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            The folders are used to organize your passwords by category.
+          </Typography>
+        </Box>
+
+        <FolderGroup>
+          {folders.map((folder) => (
+            <FolderItem key={folder.id} folder={folder} onDelete={handlerDelete} onRename={handlerRename} />
+          ))}
+        </FolderGroup>
+
+        <PlusButton title="Add Folder" onClick={() => navigate('/folders/add')} />
       </Box>
-
-      <FolderGroup>
-        {folders.map((folder) => (
-          <FolderItem key={folder.id} folder={folder} onDelete={handlerDelete} onRename={handlerRename} />
-        ))}
-      </FolderGroup>
-
-      <PlusButton title="Add Folder" onClick={() => navigate('/folders/add')} />
-    </Box>
+    </SEO>
   );
 };
 

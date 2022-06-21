@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { PasswordGroup, PasswordItem, PlusButton } from '../components';
+import { PasswordGroup, PasswordItem, PlusButton, SEO } from '../components';
 
 const passwords = [
   {
@@ -36,24 +36,26 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Dashboard
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          The passwords group by category.
-        </Typography>
+    <SEO title="Dashboard">
+      <Box sx={{ p: 3 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Dashboard
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            The passwords group by category.
+          </Typography>
+        </Box>
+
+        <PasswordGroup type="default">
+          {passwords.map((password) => {
+            return <PasswordItem key={password.id} password={password} />;
+          })}
+        </PasswordGroup>
+
+        <PlusButton title="Add Password" onClick={() => navigate('/passwords/add')} />
       </Box>
-
-      <PasswordGroup type="default">
-        {passwords.map((password) => {
-          return <PasswordItem key={password.id} password={password} />;
-        })}
-      </PasswordGroup>
-
-      <PlusButton title="Add Password" onClick={() => navigate('/passwords/add')} />
-    </Box>
+    </SEO>
   );
 };
 

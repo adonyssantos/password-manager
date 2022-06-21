@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
 import { useUserState } from '../hooks';
 import React from 'react';
+import { SEO } from '../components';
 
 const SignIn = () => {
   const [disableButton, setDisableButton] = React.useState<boolean>(false);
@@ -37,27 +38,38 @@ const SignIn = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Typography component="h2" variant="h5">
-        Password Manager Sign In
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
-        <TextField margin="normal" required fullWidth id="username" label="Email Address" name="username" autoComplete="email" autoFocus />
-        <TextField margin="normal" required fullWidth name="masterPassword" label="Master Password" type="password" id="masterPassword" />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
-          Sign In
-        </Button>
-        <Button to="/sign-up" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
-          Sign Up
-        </Button>
+    <SEO title="Sign In">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography component="h2" variant="h5">
+          Password Manager Sign In
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Email Address"
+            name="username"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField margin="normal" required fullWidth name="masterPassword" label="Master Password" type="password" id="masterPassword" />
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
+            Sign In
+          </Button>
+          <Button to="/sign-up" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
+            Sign Up
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </SEO>
   );
 };
 

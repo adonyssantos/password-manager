@@ -7,3 +7,4 @@ export { default as Nav } from './nav';
 export { default as PasswordItem } from './password-item';
 export { default as PasswordGroup } from './password-group';
 export { default as PlusButton } from './plus-button';
+export { default as SEO } from './seo';
