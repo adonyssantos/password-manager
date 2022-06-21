@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useUserState } from '../hooks/user';
 
-const PrivatedRouter = () => {
+const PrivateRouter = () => {
   const { user } = useUserState();
 
   if (!user) {
@@ -11,4 +11,4 @@ const PrivatedRouter = () => {
   return <Outlet />;
 };
 
-export default PrivatedRouter;
+export default PrivateRouter;
