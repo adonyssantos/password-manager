@@ -55,6 +55,7 @@ const Header = ({ children, title, mobileNav, handleOpenNavMenu, handleCloseNavM
             flexGrow: 1,
             display: { xs: 'none', md: 'flex' },
             justifyContent: 'flex-end',
+            alignItems: 'center',
           }}
         >
           <Typography component="h1" variant="h5" color="inherit" noWrap sx={{ flexGrow: 1, ml: 2 }}>
