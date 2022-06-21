@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 /* Defining the props that the component will take. */
 interface SeoProps {
