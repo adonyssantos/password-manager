@@ -106,15 +106,7 @@ const SignUp = () => {
             <TextField required fullWidth id="email" label="Email Address" name="email" autoComplete="email" />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="masterPassword"
-              label="Master Password"
-              type="password"
-              id="masterPassword"
-              autoComplete="new-password-password"
-            />
+            <TextField required fullWidth name="masterPassword" label="Master Password" type="password" id="masterPassword" />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -124,14 +116,13 @@ const SignUp = () => {
               label="Confirm Master Password"
               type="password"
               id="confirmMasterPassword"
-              autoComplete="confirm-password-password"
             />
           </Grid>
         </Grid>
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
           Sign Up
         </Button>
-        <Button to="/" type="button" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
+        <Button to="/" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
           Sign In
         </Button>
       </Box>

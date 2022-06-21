@@ -49,20 +49,11 @@ const SignIn = () => {
       </Typography>
       <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
         <TextField margin="normal" required fullWidth id="username" label="Email Address" name="username" autoComplete="email" autoFocus />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="masterPassword"
-          label="Master Password"
-          type="password"
-          id="masterPassword"
-          autoComplete="current-master-password"
-        />
+        <TextField margin="normal" required fullWidth name="masterPassword" label="Master Password" type="password" id="masterPassword" />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
           Sign In
         </Button>
-        <Button to="/sign-up" type="button" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
+        <Button to="/sign-up" fullWidth variant="outlined" sx={{ mt: 2 }} component={Link}>
           Sign Up
         </Button>
       </Box>
