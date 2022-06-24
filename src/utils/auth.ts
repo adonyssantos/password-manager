@@ -2,16 +2,16 @@ import { auth } from '../services';
 import { createMasterPasswordHash, compareMasterPassword } from './crypto';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential, signOut } from 'firebase/auth';
 import { updateDocument, getDocumentsByField } from './db';
-import { User, UserParams } from '../types';
+import { User, UserParams, AppError } from '../types';
 
 /**
  * It takes a user's credentials, fetches the user's data from the database, and returns the user's
  * data if the password is correct
  * @param email - User['username'] - This is the email address of the user.
  * @param password - User['masterPassword'] - This is the user's master password.
- * @returns The user data is being returned if the credentials is correct. Or string error message if the credentials is incorrect.
+ * @returns The user data is being returned if the credentials is correct. Or error message if the credentials is incorrect.
  */
-export const signIn = async (email: User['username'], password: User['masterPassword']): Promise<User | string> => {
+export const signIn = async (email: User['username'], password: User['masterPassword']): Promise<User | AppError> => {
   /**
    * It takes a user's credentials, fetches the user's data from the database, and returns the user's
    * data if the password is correct
@@ -40,7 +40,7 @@ export const signIn = async (email: User['username'], password: User['masterPass
 
     return Promise.resolve(response);
   } catch (error) {
-    return Promise.reject(error as string);
+    return Promise.reject(error as AppError);
   }
 };
 
@@ -48,9 +48,9 @@ export const signIn = async (email: User['username'], password: User['masterPass
  * It takes a user object, creates a hash of the master password, creates a user with the email and
  * password, and then updates the user document in the database with the user's data
  * @param {UserParams} user - UserParams
- * @returns A promise that resolves to a user object or rejects with an error string.
+ * @returns A promise that resolves to a user object or rejects with an error.
  */
-export const signUp = async (user: UserParams): Promise<User | string> => {
+export const signUp = async (user: UserParams): Promise<User | AppError> => {
   try {
     const { username, displayName, masterPassword } = user;
     const masterPasswordHash = createMasterPasswordHash(masterPassword);
@@ -69,19 +69,19 @@ export const signUp = async (user: UserParams): Promise<User | string> => {
 
     return Promise.resolve(response as User);
   } catch (error) {
-    return Promise.reject(error as string);
+    return Promise.reject(error as AppError);
   }
 };
 
 /**
  * It signs out the user from the Firebase Auth service
- * @returns A promise that resolves to a string.
+ * @returns A promise that resolves to a string or error.
  */
-export const logout = async (): Promise<string> => {
+export const logout = async (): Promise<string | AppError> => {
   try {
     await signOut(auth);
     return Promise.resolve('Logout successful!');
   } catch (error) {
-    return Promise.reject(error as string);
+    return Promise.reject(error as AppError);
   }
 };

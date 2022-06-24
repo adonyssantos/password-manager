@@ -29,4 +29,4 @@ export type PasswordsFolders = PasswordsFolder[] | [];
 export type Passwords = Password[] | [];
 export type Users = User[] | [];
 export type PasswordGroupByFolder = unknown;
-// TODO: Define a type for the errors
+export type AppError = Error | null | undefined | string;
