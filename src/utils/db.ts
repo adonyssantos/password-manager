@@ -1,5 +1,5 @@
 import { db } from '../services';
-import { collection, query, where, addDoc, getDocs } from 'firebase/firestore';
+import { collection, doc, query, where, addDoc, getDocs, setDoc } from 'firebase/firestore';
 
 /**
  * It creates a document in a collection
@@ -70,6 +70,24 @@ export const getDocumentsByField = async (
   }
 };
 
-// TODO: Update document in collection by id
+/**
+ * It takes a collection path, a document ID, and a new document data object, and then updates the
+ * document with the new data
+ * @param {string} collectionPath - The path to the collection you want to update the document in.
+ * @param {string} documentId - The ID of the document to update.
+ * @param {T} newDocumentData - This is the new data that you want to update the document with.
+ * @returns A promise that resolves to a string.
+ */
+export const updateDocument = async <T>(collectionPath: string, documentId: string, newDocumentData: T): Promise<string> => {
+  try {
+    const docRef = await doc(db, collectionPath, documentId);
+
+    await setDoc(docRef, newDocumentData, { merge: true });
+
+    return Promise.resolve(`Document ${documentId} updated successfully.`);
+  } catch (error) {
+    return Promise.reject(`Error updating document: ${error}`);
+  }
+};
 
 // TODO: Delete document from collection by id
