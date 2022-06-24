@@ -1,6 +1,6 @@
 import { auth } from '../services';
 import { createMasterPasswordHash, compareMasterPassword } from './crypto';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential, signOut } from 'firebase/auth';
 import { updateDocument, getDocumentsByField } from './db';
 import { User, UserParams } from '../types';
 
@@ -73,4 +73,15 @@ export const signUp = async (user: UserParams): Promise<User | string> => {
   }
 };
 
-// TODO: Logout
+/**
+ * It signs out the user from the Firebase Auth service
+ * @returns A promise that resolves to a string.
+ */
+export const logout = async (): Promise<string> => {
+  try {
+    await signOut(auth);
+    return Promise.resolve('Logout successful!');
+  } catch (error) {
+    return Promise.reject(error as string);
+  }
+};
