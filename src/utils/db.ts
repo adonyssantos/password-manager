@@ -1,5 +1,5 @@
 import { db } from '../services';
-import { collection, doc, query, where, addDoc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, deleteDoc, query, where, addDoc, getDocs, setDoc } from 'firebase/firestore';
 
 /**
  * It creates a document in a collection
@@ -90,4 +90,21 @@ export const updateDocument = async <T>(collectionPath: string, documentId: stri
   }
 };
 
-// TODO: Delete document from collection by id
+/**
+ * It takes a collection path and a document ID as arguments, and returns a promise that resolves to a
+ * string
+ * @param {string} collectionPath - The path to the collection you want to delete the document from.
+ * @param {string} documentId - The ID of the document to delete.
+ * @returns A promise that resolves to a string.
+ */
+export const deleteDocument = async (collectionPath: string, documentId: string): Promise<string> => {
+  try {
+    const docRef = await doc(db, collectionPath, documentId);
+
+    await deleteDoc(docRef);
+
+    return Promise.resolve(`Document ${documentId} deleted successfully.`);
+  } catch (error) {
+    return Promise.reject(`Error deleting document: ${error}`);
+  }
+};
