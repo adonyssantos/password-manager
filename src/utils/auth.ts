@@ -1,13 +1,48 @@
 import { auth } from '../services';
-import { createMasterPasswordHash } from './crypto';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { updateDocument } from './db';
+import { createMasterPasswordHash, compareMasterPassword } from './crypto';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import { updateDocument, getDocumentsByField } from './db';
 import { User, UserParams } from '../types';
 
-// TODO: Login with email and password
-//* 1. Login
-//* 2. Compare password
-//* 3. Return user or error
+/**
+ * It takes a user's credentials, fetches the user's data from the database, and returns the user's
+ * data if the password is correct
+ * @param email - User['username'] - This is the email address of the user.
+ * @param password - User['masterPassword'] - This is the user's master password.
+ * @returns The user data is being returned if the credentials is correct. Or string error message if the credentials is incorrect.
+ */
+export const signIn = async (email: User['username'], password: User['masterPassword']): Promise<User | string> => {
+  /**
+   * It takes a user's credentials, fetches the user's data from the database, and returns the user's
+   * data if the password is correct
+   * @param {UserCredential} credentials - UserCredential - This is the object that is returned from the
+   * firebase.auth().signInWithEmailAndPassword() method.
+   * @returns The user data is being returned.
+   */
+  const getDecryptedUserData = async (credentials: UserCredential) => {
+    return await getDocumentsByField('users', 'uid', credentials.user.uid).then((users) => {
+      const userData = users[0] as User;
+
+      if (!compareMasterPassword(password, userData.masterPassword)) {
+        throw new Error('Invalid password');
+      }
+
+      return {
+        ...userData,
+        masterPassword: password,
+      } as User;
+    });
+  };
+
+  try {
+    /* Using the firebase.auth().signInWithEmailAndPassword() method to sign in the user with the email and password. */
+    const response = await signInWithEmailAndPassword(auth, email, password).then(getDecryptedUserData);
+
+    return Promise.resolve(response);
+  } catch (error) {
+    return Promise.reject(error as string);
+  }
+};
 
 /**
  * It takes a user object, creates a hash of the master password, creates a user with the email and
