@@ -1,5 +1,5 @@
 import { db } from '../services';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 /**
  * It creates a document in a collection
@@ -16,7 +16,29 @@ export const createDocument = async <T>(collectionPath: string, documentData: T)
   }
 };
 
-// TODO: Get all documents from collection
+/**
+ * It takes a collection path as an argument, and returns a promise that resolves to an array of
+ * documents, or rejects with an error message
+ * @param {string} collectionPath - The path to the collection you want to get documents from.
+ * @returns An array of objects.
+ */
+export const getDocuments = async (collectionPath: string): Promise<unknown[] | string> => {
+  try {
+    const data: unknown[] = [];
+    const querySnapshot = await getDocs(collection(db, collectionPath));
+
+    querySnapshot.forEach((doc) => {
+      data.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    return Promise.resolve(data);
+  } catch (error) {
+    return Promise.reject(`Error getting documents: ${error}`);
+  }
+};
 
 // TODO: Get document from collection
 
