@@ -2,7 +2,7 @@ import { atom, useRecoilState } from 'recoil';
 import { PasswordGroupByFolder } from '../types';
 
 const passwordGroupByNameState = atom({
-  key: 'setPasswordGroupByName',
+  key: 'passwordGroupByNameState',
   default: null as PasswordGroupByFolder | null,
 });
 

@@ -25,6 +25,10 @@ export interface PasswordsFolder {
   userId: string;
 }
 
+export interface PasswordsFoldersState extends PasswordsFolder {
+  passwordsQty?: number;
+}
+
 export type PasswordsFolders = PasswordsFolder[] | [];
 export type Passwords = Password[] | [];
 export type Users = User[] | [];
