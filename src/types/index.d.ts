@@ -5,6 +5,10 @@ export interface User {
   displayName: string;
 }
 
+export interface UserParams extends User {
+  uid?: string;
+}
+
 export interface Password {
   id: string;
   name: string;
