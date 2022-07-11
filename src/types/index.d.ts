@@ -6,7 +6,7 @@ export interface User {
 }
 
 export interface UserParams extends User {
-  uid?: string;
+  uid?: User['uid'];
 }
 
 export interface Password {
@@ -20,16 +20,16 @@ export interface Password {
 }
 
 export interface PasswordParams extends Password {
-  id?: string;
+  id?: Password['id'];
 }
 
 export interface UpdatePasswordParams extends Password {
-  id?: string;
-  name?: string;
-  url?: string;
-  username?: string;
-  key?: string;
-  folderId?: string | null;
+  id?: Password['id'];
+  name?: Password['name'];
+  url?: Password['url'];
+  username?: Password['username'];
+  key?: Password['key'];
+  folderId?: Password['folderId'];
 }
 
 export interface PasswordsFolder {
