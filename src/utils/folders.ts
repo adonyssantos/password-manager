@@ -1,7 +1,43 @@
-// TODO: Add folder
+import { PasswordsFolder, PasswordsFolderParams, UpdatePasswordsFolderParams } from '../types';
+import { createDocument, getDocumentsByField, updateDocument, deleteDocument } from './db';
 
-// TODO: Get an array of all folders in the database with the qty of passwords in this folder
+/**
+ * It creates a new document in the `folders` collection with the given `folder` object
+ * @param {PasswordsFolderParams} folder - PasswordsFolderParams
+ * @returns A promise that resolves to the newly created document.
+ */
+export const addFolder = (folder: PasswordsFolderParams) => {
+  return createDocument('folders', folder);
+};
 
-// TODO: Update a folder by id
+/**
+ * "Get all the folders for a given user."
+ *
+ * The function takes a userId as an argument and returns a promise that resolves to an array of
+ * folders
+ * @param {string} userId - The userId of the user whose folders we want to get.
+ * @returns An array of folders
+ */
+export const getFolders = (userId: string) => {
+  return getDocumentsByField('folders', 'userId', userId);
+};
 
-// TODO: Delete a folder by id
+/**
+ * It updates a folder with the given id with the given new data
+ * @param id - The id of the folder you want to update.
+ * @param {UpdatePasswordsFolderParams} newData - UpdatePasswordsFolderParams
+ * @returns A Promise that resolves to the updated document.
+ */
+export const updateFolder = (id: PasswordsFolder['id'], newData: UpdatePasswordsFolderParams) => {
+  return updateDocument<UpdatePasswordsFolderParams>('folders', id, newData);
+};
+
+/**
+ * It deletes a folder from the database
+ * @param id - The id of the folder to delete.
+ * @returns A function that takes an id and returns a promise that resolves to the result of the
+ * deleteDocument function.
+ */
+export const deleteFolder = (id: PasswordsFolder['id']) => {
+  return deleteDocument('folders', id);
+};

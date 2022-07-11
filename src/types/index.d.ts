@@ -23,7 +23,8 @@ export interface PasswordParams extends Password {
   id?: string;
 }
 
-export interface UpdatePasswordParams extends v {
+export interface UpdatePasswordParams extends Password {
+  id?: string;
   name?: string;
   url?: string;
   username?: string;
@@ -32,9 +33,19 @@ export interface UpdatePasswordParams extends v {
 }
 
 export interface PasswordsFolder {
-  id: string;
-  name: string;
-  userId: string;
+  id: Password['id'];
+  name: Password['name'];
+  userId: Password['userId'];
+}
+
+export interface PasswordsFolderParams extends PasswordsFolder {
+  id?: PasswordsFolder['id'];
+}
+
+export interface UpdatePasswordsFolderParams extends PasswordsFolder {
+  id?: PasswordsFolder['id'];
+  name?: PasswordsFolder['name'];
+  userId?: PasswordsFolder['userId'];
 }
 
 export interface PasswordsFoldersState extends PasswordsFolder {
