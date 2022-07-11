@@ -1,26 +1,15 @@
 import { Avatar, Box, ListItem, ListItemText, OutlinedInput, IconButton } from '@mui/material';
 import { Password } from '../types/index';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import PasswordInput from './password-input';
 
 interface Props {
   password: Password;
 }
 
 const PasswordItem = ({ password }: Props) => {
-  const visibilityHandler = () => {
-    const passwordField = document.getElementById(`password-fiel-${password.id}`) as HTMLInputElement;
-    const VISIBLE_TIME = 60 * 1000;
-
-    passwordField.type === 'password' ? (passwordField.type = 'text') : (passwordField.type = 'password');
-
-    setTimeout(() => {
-      passwordField.type = 'password';
-    }, VISIBLE_TIME);
-  };
-
   return (
     <>
       {/* Mobile */}
@@ -58,19 +47,7 @@ const PasswordItem = ({ password }: Props) => {
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <OutlinedInput id="standard-basic" type="text" value={password.username} sx={{ mr: 2 }} fullWidth />
-            <OutlinedInput
-              id={`password-fiel-${password.id}`}
-              type="password"
-              value={password.key}
-              name="password"
-              sx={{ mr: 2 }}
-              fullWidth
-              endAdornment={
-                <IconButton aria-label="Show password" onClick={visibilityHandler}>
-                  <VisibilityIcon />
-                </IconButton>
-              }
-            />
+            <PasswordInput value={password.key} />
           </Box>
         </Box>
       </ListItem>
@@ -84,19 +61,9 @@ const PasswordItem = ({ password }: Props) => {
           <ListItemText primary={password.name} secondary={password.url} />
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <OutlinedInput id="standard-basic" type="text" value={password.username} sx={{ mr: 2 }} />
-            <OutlinedInput
-              id={`password-fiel-${password.id}`}
-              type="password"
-              value={password.key}
-              name="password"
-              sx={{ mr: 2 }}
-              endAdornment={
-                <IconButton aria-label="Show password" onClick={visibilityHandler}>
-                  <VisibilityIcon />
-                </IconButton>
-              }
-            />
+            <OutlinedInput id="standard-basic" type="text" value={password.username} sx={{ mr: 2 }} fullWidth />
+            <PasswordInput value={password.key} />
+
             <Box sx={{ mr: 2 }}>
               <IconButton
                 color="primary"
