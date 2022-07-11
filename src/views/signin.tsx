@@ -4,6 +4,7 @@ import { User } from '../types';
 import { useUserState } from '../hooks';
 import React from 'react';
 import { SEO } from '../components';
+import { signIn } from '../utils';
 
 const SignIn = () => {
   const [disableButton, setDisableButton] = React.useState<boolean>(false);
@@ -24,17 +25,21 @@ const SignIn = () => {
       return;
     }
 
-    // Signin code...
-    setTimeout(() => {
-      setUser({
-        uid: Math.random().toString(16),
-        username,
-        masterPassword,
-        displayName: username,
-      });
+    signIn(username, masterPassword)
+      .then((user) => {
+        user = user as User;
 
-      navigate('/');
-    }, 3000);
+        if (user) {
+          setUser(user);
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      })
+      .finally(() => {
+        setDisableButton(false);
+      });
   };
 
   return (

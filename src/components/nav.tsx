@@ -2,6 +2,7 @@ import { Button, MenuItem } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserState } from '../hooks';
 import CustomLink from './custom-link';
+import { logout } from '../utils';
 
 interface NavProps {
   type: 'default' | 'mobile';
@@ -13,8 +14,17 @@ const Nav = ({ type, handleCloseNavMenu }: NavProps) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setUser(null);
-    console.log('logged out');
+    logout()
+      .then(() => {
+        setUser(null);
+        navigate('/');
+      })
+      .catch((error) => {
+        alert(error);
+      })
+      .finally(() => {
+        handleCloseNavMenu();
+      });
   };
 
   if (type === 'mobile') {
