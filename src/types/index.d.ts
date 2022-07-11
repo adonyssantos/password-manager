@@ -19,6 +19,18 @@ export interface Password {
   userId: string;
 }
 
+export interface PasswordParams extends Password {
+  id?: string;
+}
+
+export interface UpdatePasswordParams extends v {
+  name?: string;
+  url?: string;
+  username?: string;
+  key?: string;
+  folderId?: string | null;
+}
+
 export interface PasswordsFolder {
   id: string;
   name: string;
