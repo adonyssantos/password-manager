@@ -52,8 +52,14 @@ export interface PasswordsFoldersState extends PasswordsFolder {
   passwordsQty?: number;
 }
 
+export interface OnePasswordFolder extends PasswordsFolder {
+  passwords: Password[] | null;
+}
+
+// an array of OnePasswordFolder
+export type PasswordGroupByFolder = OnePasswordFolder[];
+
 export type PasswordsFolders = PasswordsFolder[] | [];
 export type Passwords = Password[] | [];
 export type Users = User[] | [];
-export type PasswordGroupByFolder = unknown;
 export type AppError = Error | null | undefined | string;

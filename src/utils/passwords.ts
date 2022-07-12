@@ -1,21 +1,27 @@
-import { Password, PasswordParams, UpdatePasswordParams } from '../types';
-import { createDocument, updateDocument, deleteDocument } from './db';
+import { Password, PasswordParams, Passwords, UpdatePasswordParams, User } from '../types';
+import { decryptPassword, encryptPassword } from './crypto';
+import { createDocument, getDocumentsByField, updateDocument, deleteDocument } from './db';
 
-/**
- * It takes a password object and creates a new document in the passwords collection
- * @param {PasswordParams} password - PasswordParams
- * @returns A promise that resolves to the newly created document.
- */
-export const addPassword = (password: PasswordParams) => {
+export const addPassword = (password: PasswordParams, masterPassword: User['masterPassword']) => {
+  if (password.key) {
+    password.key = encryptPassword(password.key, masterPassword);
+  }
   return createDocument('passwords', password);
 };
 
-// TODO: Get an array or object of all folders in the database group by folderId
-//* 1. Get the password collection
-//* 2. This function recibes the masterPassword
-//* 3. Map the collection array and decrypt the passwords
-//* 4. Get the user folder list
-//* 5. Group the passwords by folder and return it
+export const getPasswords = async (masterPassword: string, userRef: string) => {
+  const userPasswords = (await getDocumentsByField('passwords', 'userId', userRef)) as Passwords;
+
+  //  decrypt the passwords array
+  const decryptedPasswords = userPasswords.map((password: Password) => {
+    return {
+      ...password,
+      key: decryptPassword(password.key, masterPassword),
+    };
+  });
+
+  return decryptedPasswords as Passwords;
+};
 
 /**
  * It updates a password document in the passwords collection
@@ -24,7 +30,12 @@ export const addPassword = (password: PasswordParams) => {
  * @returns A function that takes an id and newData and returns a promise that resolves to the updated
  * document.
  */
-export const updatePassword = (id: Password['id'], newData: UpdatePasswordParams) => {
+export const updatePassword = (id: Password['id'], masterPassword: User['masterPassword'], newData: UpdatePasswordParams) => {
+  // encrypt the new password
+  if (newData.key) {
+    newData.key = encryptPassword(newData.key, masterPassword);
+  }
+
   return updateDocument<UpdatePasswordParams>('passwords', id, newData);
 };
 

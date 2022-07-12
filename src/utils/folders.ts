@@ -1,4 +1,4 @@
-import { PasswordsFolder, PasswordsFolderParams, UpdatePasswordsFolderParams } from '../types';
+import { PasswordsFolder, PasswordsFolders, PasswordsFolderParams, UpdatePasswordsFolderParams } from '../types';
 import { createDocument, getDocumentsByField, updateDocument, deleteDocument } from './db';
 
 /**
@@ -19,7 +19,9 @@ export const addFolder = (folder: PasswordsFolderParams) => {
  * @returns An array of folders
  */
 export const getFolders = (userId: string) => {
-  return getDocumentsByField('folders', 'userId', userId);
+  const folders = getDocumentsByField('folders', 'userId', userId).catch(() => []);
+
+  return folders as Promise<PasswordsFolders>;
 };
 
 /**
