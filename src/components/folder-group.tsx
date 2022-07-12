@@ -1,6 +1,11 @@
 import { List } from '@mui/material';
+import { ReactNode } from 'react';
 
-const FolderGroup = ({ children }: any) => {
+interface Props {
+  children: ReactNode;
+}
+
+const FolderGroup = ({ children }: Props) => {
   return <List>{children}</List>;
 };
 
