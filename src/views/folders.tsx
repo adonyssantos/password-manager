@@ -1,7 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { FolderItem, FolderGroup, PlusButton, Loading } from '../components';
 import { getPasswordGroupByFolders } from '../utils';
-import { OnePasswordFolder } from '../types';
 import { SEO } from '../components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,14 +22,6 @@ const Folder = () => {
     }
   }, []);
 
-  const handlerRename = (folder: OnePasswordFolder) => {
-    console.log('rename', folder);
-  };
-
-  const handlerDelete = (folder: OnePasswordFolder) => {
-    console.log('delete', folder);
-  };
-
   return (
     <SEO title="Folders">
       <Box sx={{ p: 3 }}>
@@ -47,9 +38,13 @@ const Folder = () => {
           <Loading name="Getting folders..." />
         ) : (
           <FolderGroup>
-            {passwordGroupByName?.map((folder) => (
-              <FolderItem key={folder.id} folder={folder} onDelete={handlerDelete} onRename={handlerRename} />
-            ))}
+            {passwordGroupByName?.map((folder) => {
+              if (folder.id === 'default') {
+                return <FolderItem key={folder.id} folder={folder} type="default" />;
+              }
+
+              return <FolderItem key={folder.id} folder={folder} />;
+            })}
           </FolderGroup>
         )}
 
