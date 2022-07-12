@@ -4,12 +4,34 @@ import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import PasswordInput from './password-input';
+import { deletePassword } from '../utils';
+import { usePasswordGroup } from '../hooks';
 
 interface Props {
   password: Password;
 }
 
 const PasswordItem = ({ password }: Props) => {
+  const { passwordGroupByName, setPasswordGroupByName } = usePasswordGroup();
+
+  const handleDelete = () => {
+    deletePassword(password.id).then(() => {
+      const newData = passwordGroupByName?.map((group) => {
+        if (group.id === password.folderId) {
+          return {
+            ...group,
+            passwords: group.passwords.filter((p) => p.id !== password.id),
+          };
+        }
+        return group;
+      });
+
+      if (newData) {
+        setPasswordGroupByName(newData);
+      }
+    });
+  };
+
   return (
     <>
       {/* Mobile */}
@@ -33,14 +55,7 @@ const PasswordItem = ({ password }: Props) => {
                 <DriveFileRenameOutlineIcon />
               </IconButton>
 
-              <IconButton
-                color="primary"
-                edge="end"
-                aria-label="delete"
-                onClick={() => {
-                  alert(`delete ${password.name}`);
-                }}
-              >
+              <IconButton color="primary" edge="end" aria-label="delete" onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </Box>
@@ -76,14 +91,7 @@ const PasswordItem = ({ password }: Props) => {
                 <DriveFileRenameOutlineIcon />
               </IconButton>
 
-              <IconButton
-                color="primary"
-                edge="end"
-                aria-label="delete"
-                onClick={() => {
-                  alert(`delete ${password.name}`);
-                }}
-              >
+              <IconButton color="primary" edge="end" aria-label="delete" onClick={handleDelete}>
                 <DeleteIcon />
               </IconButton>
             </Box>
