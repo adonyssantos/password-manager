@@ -4,13 +4,13 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import FolderIcon from '@mui/icons-material/Folder';
 import IconButton from '@mui/material/IconButton';
 
-export default function FolderItem({ folder, onDelete, onRename }: any) {
+export default function FolderItem({ folder, onDelete, onRename, qty }: any) {
   return (
     <ListItem>
       <Avatar sx={{ mr: 2, backgroundColor: 'primary.main' }}>
         <FolderIcon />
       </Avatar>
-      <ListItemText primary={folder.name} secondary={`${folder.passwords} passwords`} />
+      <ListItemText primary={folder.name} secondary={`${folder.qty} passwords`} />
 
       <Box sx={{ ml: 'auto' }}>
         <IconButton color="primary" edge="end" aria-label="rename" onClick={() => onRename(folder)}>

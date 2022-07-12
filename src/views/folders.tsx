@@ -1,34 +1,33 @@
 import { Box, Typography } from '@mui/material';
-import { FolderItem, FolderGroup, PlusButton } from '../components';
-import { useNavigate } from 'react-router-dom';
+import { FolderItem, FolderGroup, PlusButton, Loading } from '../components';
+import { getPasswordGroupByFolders } from '../utils';
+import { OnePasswordFolder } from '../types';
 import { SEO } from '../components';
-
-const folders = [
-  {
-    id: '1',
-    name: 'Folder 1',
-    passwords: 2,
-  },
-  {
-    id: '2',
-    name: 'Folder 2',
-    passwords: 3,
-  },
-  {
-    id: '3',
-    name: 'Folder 3',
-    passwords: 4,
-  },
-];
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { usePasswordGroup, useUserState } from '../hooks';
 
 const Folder = () => {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { user } = useUserState();
+  const { passwordGroupByName, setPasswordGroupByName } = usePasswordGroup();
 
-  const handlerRename = (folder: any) => {
+  useEffect(() => {
+    if (user) {
+      const { uid, masterPassword } = user;
+
+      getPasswordGroupByFolders(uid, masterPassword)
+        .then(setPasswordGroupByName)
+        .then(() => setLoading(false));
+    }
+  }, []);
+
+  const handlerRename = (folder: OnePasswordFolder) => {
     console.log('rename', folder);
   };
 
-  const handlerDelete = (folder: any) => {
+  const handlerDelete = (folder: OnePasswordFolder) => {
     console.log('delete', folder);
   };
 
@@ -44,11 +43,15 @@ const Folder = () => {
           </Typography>
         </Box>
 
-        <FolderGroup>
-          {folders.map((folder) => (
-            <FolderItem key={folder.id} folder={folder} onDelete={handlerDelete} onRename={handlerRename} />
-          ))}
-        </FolderGroup>
+        {loading ? (
+          <Loading name="Getting folders..." />
+        ) : (
+          <FolderGroup>
+            {passwordGroupByName?.map((folder) => (
+              <FolderItem key={folder.id} folder={folder} onDelete={handlerDelete} onRename={handlerRename} />
+            ))}
+          </FolderGroup>
+        )}
 
         <PlusButton title="Add Folder" onClick={() => navigate('/folders/add')} />
       </Box>
