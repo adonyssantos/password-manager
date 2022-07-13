@@ -1,7 +1,19 @@
-import { Avatar, Box, ListItem, ListItemText } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 import { deleteFolder } from '../utils';
 import { OnePasswordFolder } from '../types';
 import { usePasswordGroup } from '../hooks';
+import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -13,18 +25,31 @@ interface Props {
 }
 
 export default function FolderItem({ folder, type }: Props) {
+  const [open, setOpen] = useState(false);
   const { passwordGroupByName, setPasswordGroupByName } = usePasswordGroup();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleDelete = () => {
     if (folder.id === 'default') return;
 
-    deleteFolder(folder.id).then(() => {
-      const newData = passwordGroupByName?.filter((item) => item.id !== folder.id);
+    deleteFolder(folder.id)
+      .then(() => {
+        const newData = passwordGroupByName?.filter((item) => item.id !== folder.id);
 
-      if (newData) {
-        setPasswordGroupByName(newData);
-      }
-    });
+        if (newData) {
+          setPasswordGroupByName(newData);
+        }
+      })
+      .finally(() => {
+        setOpen(false);
+      });
   };
 
   return (
@@ -40,9 +65,22 @@ export default function FolderItem({ folder, type }: Props) {
             <DriveFileRenameOutlineIcon />
           </IconButton>
 
-          <IconButton color="primary" edge="end" aria-label="delete" onClick={handleDelete}>
+          <IconButton color="primary" edge="end" aria-label="delete" onClick={handleClickOpen}>
             <DeleteIcon />
           </IconButton>
+
+          <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">Delete Folder</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">Are you sure you want to delete this folder?</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleDelete} autoFocus>
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       )}
     </ListItem>

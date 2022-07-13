@@ -1,33 +1,60 @@
-import { Avatar, Box, ListItem, ListItemText, OutlinedInput, IconButton } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  ListItem,
+  ListItemText,
+  OutlinedInput,
+} from '@mui/material';
+import { deletePassword } from '../utils';
 import { Password } from '../types/index';
-import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+import { usePasswordGroup } from '../hooks';
+import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import PasswordInput from './password-input';
-import { deletePassword } from '../utils';
-import { usePasswordGroup } from '../hooks';
 
 interface Props {
   password: Password;
 }
 
 const PasswordItem = ({ password }: Props) => {
+  const [open, setOpen] = useState(false);
   const { passwordGroupByName, setPasswordGroupByName } = usePasswordGroup();
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleDelete = () => {
-    deletePassword(password.id).then(() => {
-      const newData = passwordGroupByName?.map((folder) => {
-        const { passwords } = folder;
-        const newPasswords = passwords.filter((item) => item.id !== password.id);
-        const result = { ...folder, passwords: newPasswords };
+    deletePassword(password.id)
+      .then(() => {
+        const newData = passwordGroupByName?.map((folder) => {
+          const { passwords } = folder;
+          const newPasswords = passwords.filter((item) => item.id !== password.id);
+          const result = { ...folder, passwords: newPasswords };
 
-        return result;
+          return result;
+        });
+
+        if (newData) {
+          setPasswordGroupByName(newData);
+        }
+      })
+      .finally(() => {
+        setOpen(false);
       });
-
-      if (newData) {
-        setPasswordGroupByName(newData);
-      }
-    });
   };
 
   return (
@@ -53,7 +80,7 @@ const PasswordItem = ({ password }: Props) => {
                 <DriveFileRenameOutlineIcon />
               </IconButton>
 
-              <IconButton color="primary" edge="end" aria-label="delete" onClick={handleDelete}>
+              <IconButton color="primary" edge="end" aria-label="delete" onClick={handleClickOpen}>
                 <DeleteIcon />
               </IconButton>
             </Box>
@@ -89,13 +116,27 @@ const PasswordItem = ({ password }: Props) => {
                 <DriveFileRenameOutlineIcon />
               </IconButton>
 
-              <IconButton color="primary" edge="end" aria-label="delete" onClick={handleDelete}>
+              <IconButton color="primary" edge="end" aria-label="delete" onClick={handleClickOpen}>
                 <DeleteIcon />
               </IconButton>
             </Box>
           </Box>
         </ListItem>
       </Box>
+
+      {/* Confirmation */}
+      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Delete Password</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Are you sure you want to delete this password?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
