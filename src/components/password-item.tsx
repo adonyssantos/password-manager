@@ -16,14 +16,12 @@ const PasswordItem = ({ password }: Props) => {
 
   const handleDelete = () => {
     deletePassword(password.id).then(() => {
-      const newData = passwordGroupByName?.map((group) => {
-        if (group.id === password.folderId) {
-          return {
-            ...group,
-            passwords: group.passwords.filter((p) => p.id !== password.id),
-          };
-        }
-        return group;
+      const newData = passwordGroupByName?.map((folder) => {
+        const { passwords } = folder;
+        const newPasswords = passwords.filter((item) => item.id !== password.id);
+        const result = { ...folder, passwords: newPasswords };
+
+        return result;
       });
 
       if (newData) {
