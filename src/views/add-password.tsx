@@ -1,12 +1,58 @@
-import { Box, Button, Select, TextField, Typography } from '@mui/material';
-import { useState, FormEvent } from 'react';
-import { SEO } from '../components';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { useState, FormEvent, useEffect } from 'react';
+import { Loading, SEO } from '../components';
+import { addPassword, getFolders } from '../utils';
+import { useNavigate } from 'react-router-dom';
+import { useUserState } from '../hooks';
+import { PasswordParams, PasswordsFolders } from '../types';
 
 const AddPassword = () => {
   const [disableButton, setDisableButton] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { user } = useUserState();
+  const [folders, setFolders] = useState<PasswordsFolders>([]);
+
+  useEffect(() => {
+    if (user && user.uid) {
+      getFolders(user.uid)
+        .then((folders) => {
+          setFolders(folders);
+        })
+        .catch(() => {
+          setFolders([]);
+        });
+    }
+  }, [user]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    alert('Test');
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    event.preventDefault();
+    setDisableButton(true);
+
+    if (user && user.uid) {
+      const newPassword = {
+        name: formData.get('name') as PasswordParams['name'],
+        url: formData.get('url') as PasswordParams['url'],
+        username: formData.get('username') as PasswordParams['username'],
+        key: formData.get('key') as PasswordParams['key'],
+        folderId: formData.get('folderId') as PasswordParams['folderId'],
+        userId: user.uid,
+      };
+
+      addPassword(newPassword, user.masterPassword)
+        .then(() => {
+          navigate('/passwords');
+        })
+        .catch(() => {
+          setDisableButton(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -19,24 +65,37 @@ const AddPassword = () => {
         }}
       >
         <Typography component="h2" variant="h5">
-          Password Manager Sign In
+          Add new password
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
-          <TextField margin="normal" required fullWidth id="name" label="Title" name="name" autoFocus />
-          <TextField margin="normal" required fullWidth name="url" label="URL" type="url" id="url" />
-          <TextField margin="normal" required fullWidth id="username" label="Username" name="username" />
-          <TextField margin="normal" required fullWidth name="key" label="Password" type="password" id="key" />
-          <Select margin="none" required fullWidth id="folder" label="Folder" name="folder">
-            <option value="">None</option>
-            <option value="1">Folder 1</option>
-            <option value="2">Folder 2</option>
-            <option value="3">Folder 3</option>
-          </Select>
+        {loading ? (
+          <Loading name="Getting form..." />
+        ) : (
+          <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
+            <TextField margin="normal" required fullWidth id="name" label="Title" name="name" autoFocus />
+            <TextField margin="normal" required fullWidth name="url" label="URL" type="url" id="url" />
+            <TextField margin="normal" required fullWidth id="username" label="Username" name="username" />
+            <TextField margin="normal" required fullWidth name="key" label="Password" type="password" id="key" />
 
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
-            Add Password
-          </Button>
-        </Box>
+            <FormControl fullWidth>
+              <InputLabel id="folderId">Folder</InputLabel>
+              <Select required fullWidth id="folderId" labelId="folderId-label" label="Folder" name="folderId">
+                <MenuItem value="null">Default</MenuItem>
+                {folders.map((folder) => (
+                  <MenuItem key={folder.id} value={folder.id}>
+                    {folder.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
+              Add Password
+            </Button>
+            <Button type="button" fullWidth variant="outlined" sx={{ mt: 2 }} color="primary" onClick={() => navigate('/passwords')}>
+              Cancel
+            </Button>
+          </Box>
+        )}
       </Box>
     </SEO>
   );
