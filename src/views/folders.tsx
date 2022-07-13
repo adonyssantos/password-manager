@@ -20,7 +20,7 @@ const Folder = () => {
         .then(setPasswordGroupByName)
         .then(() => setLoading(false));
     }
-  }, []);
+  }, [[user, passwordGroupByName]]);
 
   return (
     <SEO title="Folders">
