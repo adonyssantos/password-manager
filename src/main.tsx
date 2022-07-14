@@ -8,13 +8,13 @@ import { CssBaseline } from '@mui/material';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <HelmetProvider>
-        <RecoilRoot>
+    <RecoilRoot>
+      <BrowserRouter>
+        <HelmetProvider>
           <CssBaseline />
           <HomeApp />
-        </RecoilRoot>
-      </HelmetProvider>
-    </BrowserRouter>
+        </HelmetProvider>
+      </BrowserRouter>
+    </RecoilRoot>
   </React.StrictMode>
 );
