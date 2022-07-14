@@ -18,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import FolderIcon from '@mui/icons-material/Folder';
 import IconButton from '@mui/material/IconButton';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   folder: OnePasswordFolder;
@@ -27,6 +28,7 @@ interface Props {
 export default function FolderItem({ folder, type }: Props) {
   const [open, setOpen] = useState(false);
   const { passwordGroupByName, setPasswordGroupByName } = usePasswordGroup();
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,6 +54,10 @@ export default function FolderItem({ folder, type }: Props) {
       });
   };
 
+  const handleEdit = () => {
+    navigate(`/folders/edit/${folder.id}`);
+  };
+
   return (
     <ListItem>
       <Avatar sx={{ mr: 2, backgroundColor: 'primary.main' }}>
@@ -61,7 +67,7 @@ export default function FolderItem({ folder, type }: Props) {
 
       {type === 'default' ? null : (
         <Box sx={{ ml: 'auto' }}>
-          <IconButton color="primary" edge="end" aria-label="rename" onClick={() => null}>
+          <IconButton color="primary" edge="end" aria-label="rename" onClick={handleEdit}>
             <DriveFileRenameOutlineIcon />
           </IconButton>
 

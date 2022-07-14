@@ -25,6 +25,21 @@ export const getFolders = (userId: string) => {
 };
 
 /**
+ * Get all the folders for a user, then find the folder with the given ID
+ * @param {string} userId - The user's ID
+ * @param {string} folderId - The ID of the folder we want to get
+ * @returns A single folder
+ */
+export const getSingleFolder = async (userId: string, folderId: string) => {
+  //! TODO: Add a check to make sure the user has access to the folder
+  //! TODO: Get only the fields we need
+  const folders = await getFolders(userId);
+  const folder: PasswordsFolder | undefined = folders.find((f) => f.id === folderId);
+
+  return folder;
+};
+
+/**
  * It updates a folder with the given id with the given new data
  * @param id - The id of the folder you want to update.
  * @param {UpdatePasswordsFolderParams} newData - UpdatePasswordsFolderParams

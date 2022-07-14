@@ -20,6 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import PasswordInput from './password-input';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   password: Password;
@@ -28,6 +29,7 @@ interface Props {
 const PasswordItem = ({ password }: Props) => {
   const [open, setOpen] = useState(false);
   const { passwordGroupByName, setPasswordGroupByName } = usePasswordGroup();
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,6 +59,10 @@ const PasswordItem = ({ password }: Props) => {
       });
   };
 
+  const handleEdit = () => {
+    navigate(`/passwords/edit/${password.id}`);
+  };
+
   return (
     <>
       {/* Mobile */}
@@ -69,14 +75,7 @@ const PasswordItem = ({ password }: Props) => {
             <ListItemText primary={password.name} secondary={password.url} sx={{ display: 'inline' }} />
 
             <Box sx={{ mr: 2 }}>
-              <IconButton
-                color="primary"
-                edge="end"
-                aria-label="rename"
-                onClick={() => {
-                  alert(`rename ${password.name}`);
-                }}
-              >
+              <IconButton color="primary" edge="end" aria-label="rename" onClick={handleEdit}>
                 <DriveFileRenameOutlineIcon />
               </IconButton>
 
@@ -105,14 +104,7 @@ const PasswordItem = ({ password }: Props) => {
             <PasswordInput value={password.key} />
 
             <Box sx={{ mr: 2 }}>
-              <IconButton
-                color="primary"
-                edge="end"
-                aria-label="rename"
-                onClick={() => {
-                  alert(`rename ${password.name}`);
-                }}
-              >
+              <IconButton color="primary" edge="end" aria-label="rename" onClick={handleEdit}>
                 <DriveFileRenameOutlineIcon />
               </IconButton>
 
