@@ -23,6 +23,13 @@ export const getPasswords = async (masterPassword: string, userRef: string) => {
   return decryptedPasswords as Passwords;
 };
 
+export const getSinglePassword = async (userId: string, passwordId: string, masterPassword: string) => {
+  const passwords = await getPasswords(masterPassword, userId);
+  const password: Password | undefined = passwords.find((p: Password) => p.id === passwordId);
+
+  return password;
+};
+
 /**
  * It updates a password document in the passwords collection
  * @param id - The id of the password you want to update.

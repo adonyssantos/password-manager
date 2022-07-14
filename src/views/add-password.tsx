@@ -78,7 +78,7 @@ const AddPassword = () => {
 
             <FormControl fullWidth>
               <InputLabel id="folderId">Folder</InputLabel>
-              <Select required fullWidth id="folderId" labelId="folderId-label" label="Folder" name="folderId">
+              <Select required fullWidth id="folderId" labelId="folderId-label" label="Folder" name="folderId" value="null">
                 <MenuItem value="null">Default</MenuItem>
                 {folders.map((folder) => (
                   <MenuItem key={folder.id} value={folder.id}>
@@ -89,7 +89,7 @@ const AddPassword = () => {
             </FormControl>
 
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
-              Add Password
+              Edit Password
             </Button>
             <Button type="button" fullWidth variant="outlined" sx={{ mt: 2 }} color="primary" onClick={() => navigate('/passwords')}>
               Cancel

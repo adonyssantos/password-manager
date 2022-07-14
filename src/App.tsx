@@ -1,4 +1,4 @@
-import { AddPassword, AddFolder, Dashboard, Folders, Layout, PrivateRouter, SignIn, SignUp, EditFolder } from './views';
+import { AddPassword, AddFolder, Dashboard, Folders, Layout, PrivateRouter, SignIn, SignUp, EditFolder, EditPassword } from './views';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 const HomeApp = () => {
@@ -11,7 +11,7 @@ const HomeApp = () => {
           <Route path="passwords">
             <Route index element={<Dashboard />} />
             <Route path="add" element={<AddPassword />} />
-            {/* <Route path="edit/:id" element={<EditPassword />} /> */}
+            <Route path="edit/:id" element={<EditPassword />} />
           </Route>
           <Route path="folders">
             <Route index element={<Folders />} />

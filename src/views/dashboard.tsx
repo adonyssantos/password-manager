@@ -44,7 +44,6 @@ const Dashboard = () => {
             </PasswordGroup>
           ))
         )}
-
         <PlusButton title="Add Password" onClick={() => navigate('/passwords/add')} />
       </Box>
     </SEO>
