@@ -115,7 +115,7 @@ const AddPassword = () => {
             </FormControl>
 
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
-              Edit Password
+              Add Password
             </Button>
             <Button
               type="button"

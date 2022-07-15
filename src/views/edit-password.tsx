@@ -102,7 +102,7 @@ const EditPassword = () => {
         }}
       >
         <Typography component="h2" variant="h5">
-          Add Password
+          Edit Password
         </Typography>
         {loading && password ? (
           <Loading name="Getting form..." />

@@ -48,7 +48,7 @@ const AddFolder = () => {
         <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
           <TextField margin="normal" required fullWidth id="name" label="Folder name" name="name" autoFocus />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
-            Add Password
+            Add Folder
           </Button>
           <Button
             type="button"

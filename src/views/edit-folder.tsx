@@ -1,7 +1,7 @@
 import { updateFolder, getSingleFolder } from '../utils';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { PasswordsFolderParams } from '../types';
-import { SEO } from '../components';
+import { Loading, SEO } from '../components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserState } from '../hooks';
 import { useState, FormEvent, useEffect } from 'react';
@@ -54,6 +54,14 @@ const EditFolder = () => {
             <Typography variant="body1">{error}</Typography>
           </Box>
         </Box>
+      </SEO>
+    );
+  }
+
+  if (!folder) {
+    return (
+      <SEO title="Loading...">
+        <Loading name="Loading folder" />
       </SEO>
     );
   }

@@ -21,7 +21,7 @@ const Generator = () => {
   };
 
   return (
-    <SEO title="Add Folder">
+    <SEO title="Password Generator">
       <Box
         sx={{
           display: 'flex',
@@ -30,7 +30,7 @@ const Generator = () => {
         }}
       >
         <Typography component="h2" variant="h5">
-          Generate Password
+          Generate a Secure Password
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
           <TextField
