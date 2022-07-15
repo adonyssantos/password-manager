@@ -1,7 +1,12 @@
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-const PlusButton = ({ title, onClick }: any) => {
+interface Props {
+  title: string;
+  onClick: () => void;
+}
+
+const PlusButton = ({ title, onClick }: Props) => {
   return (
     <Fab
       color="primary"
