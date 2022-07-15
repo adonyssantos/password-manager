@@ -30,8 +30,10 @@ const SignIn = () => {
         user = user as User;
 
         if (user) {
+          const redirectTo = localStorage.getItem('redirectTo') || '/';
+
           setUser(user);
-          navigate('/');
+          navigate(redirectTo);
         }
       })
       .catch((error) => {
