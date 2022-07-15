@@ -45,6 +45,7 @@ const SignIn = () => {
       })
       .finally(() => {
         setDisableButton(false);
+        localStorage.removeItem('redirectTo');
       });
   };
 

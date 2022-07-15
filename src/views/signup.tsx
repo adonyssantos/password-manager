@@ -60,6 +60,7 @@ const SignUp = () => {
           })
           .finally(() => {
             setDisableButton(false);
+            localStorage.removeItem('redirectTo');
           });
       })
       .catch((error) => {
