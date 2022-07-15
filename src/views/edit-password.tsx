@@ -84,6 +84,14 @@ const EditPassword = () => {
     );
   }
 
+  if (!password) {
+    return (
+      <SEO title="Loading...">
+        <Loading name="Loading password" />
+      </SEO>
+    );
+  }
+
   return (
     <SEO title="Edit Password">
       <Box
@@ -96,24 +104,29 @@ const EditPassword = () => {
         <Typography component="h2" variant="h5">
           Add Password
         </Typography>
-        {loading ? (
+        {loading && password ? (
           <Loading name="Getting form..." />
         ) : (
           <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
             <TextField
-              margin="normal"
+              // margin="normal"
+              margin="dense"
               required
               fullWidth
               id="name"
               label="Title"
               name="name"
-              autoFocus
-              value={password?.name}
+              key="name"
+              // autoFocus
+
+              value={password.name}
               onChange={(event) => {
                 const name = event.target.value;
                 setPassword({ ...password, name } as PasswordParams);
               }}
+              style={{ marginBottom: 20, marginTop: 20 }}
             />
+
             <TextField
               margin="normal"
               required
@@ -165,7 +178,7 @@ const EditPassword = () => {
                 labelId="folderId-label"
                 label="Folder"
                 name="folderId"
-                value={password?.folderId}
+                value={password?.folderId || 'null'}
                 onChange={(event) => {
                   const folderId = event.target.value;
                   setPassword({ ...password, folderId } as PasswordParams);
