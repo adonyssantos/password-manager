@@ -4,14 +4,15 @@ import { Loading, SEO } from '../components';
 import { addPassword, getFolders } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { useUserState } from '../hooks';
-import { PasswordParams, PasswordsFolders } from '../types';
+import { PasswordParams, PasswordsFolders, PasswordsFolder } from '../types';
 
 const AddPassword = () => {
-  const [disableButton, setDisableButton] = useState<boolean>(false);
+  const [folders, setFolders] = useState<PasswordsFolders>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [disableButton, setDisableButton] = useState<boolean>(false);
   const navigate = useNavigate();
   const { user } = useUserState();
-  const [folders, setFolders] = useState<PasswordsFolders>([]);
+  const [selectedFolder, setSelectedFolder] = useState<PasswordsFolder>();
 
   useEffect(() => {
     if (user && user.uid) {
@@ -78,7 +79,19 @@ const AddPassword = () => {
 
             <FormControl fullWidth>
               <InputLabel id="folderId">Folder</InputLabel>
-              <Select required fullWidth id="folderId" labelId="folderId-label" label="Folder" name="folderId" value="null">
+              <Select
+                required
+                fullWidth
+                id="folderId"
+                labelId="folderId-label"
+                label="Folder"
+                name="folderId"
+                value={selectedFolder?.id || 'null'}
+                onChange={(event) => {
+                  const folderId = event.target.value;
+                  setSelectedFolder(folders.find((folder) => folder.id === folderId));
+                }}
+              >
                 <MenuItem value="null">Default</MenuItem>
                 {folders.map((folder) => (
                   <MenuItem key={folder.id} value={folder.id}>
