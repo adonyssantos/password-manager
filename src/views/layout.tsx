@@ -1,5 +1,5 @@
 import { Container, Toolbar } from '@mui/material';
-import { Footer, Header, Nav } from '../components';
+import { Footer, Header, Nav, Warning } from '../components';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -30,6 +30,7 @@ const Layout = () => {
       <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
         <Outlet />
       </Container>
+      <Warning />
       <Footer />
     </>
   );
