@@ -19,9 +19,6 @@ const Nav = ({ type, handleCloseNavMenu }: NavProps) => {
         setUser(null);
         navigate('/');
       })
-      .catch((error) => {
-        alert(error);
-      })
       .finally(() => {
         handleCloseNavMenu();
       });

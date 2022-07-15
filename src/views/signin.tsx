@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
 import { useUserState } from '../hooks';
@@ -7,6 +7,8 @@ import { SEO } from '../components';
 import { signIn } from '../utils';
 
 const SignIn = () => {
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | null>(null);
   const [disableButton, setDisableButton] = React.useState<boolean>(false);
   const { setUser } = useUserState();
   const navigate = useNavigate();
@@ -21,7 +23,8 @@ const SignIn = () => {
 
     if (!data.get('username') || !data.get('masterPassword') || !data) {
       setDisableButton(false);
-      alert('Please fill all fields');
+      setError('Please fill out all fields.');
+      setOpen(true);
       return;
     }
 
@@ -36,12 +39,17 @@ const SignIn = () => {
           navigate(redirectTo);
         }
       })
-      .catch((error) => {
-        alert(error);
+      .catch(() => {
+        setError('Invalid username or master password');
+        setOpen(true);
       })
       .finally(() => {
         setDisableButton(false);
       });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -76,6 +84,15 @@ const SignIn = () => {
           </Button>
         </Box>
       </Box>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Error on SignIn!</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">{error ? error : 'Something went wrong, please try again.'}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </SEO>
   );
 };

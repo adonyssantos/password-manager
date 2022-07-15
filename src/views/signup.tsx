@@ -1,12 +1,25 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../types';
 import { useUserState } from '../hooks';
 import React from 'react';
 import { SEO } from '../components';
-import { signUp } from '../utils';
+import { signUp, signUpValidator } from '../utils';
 
 const SignUp = () => {
+  const [error, setError] = React.useState<string | null>(null);
+  const [open, setOpen] = React.useState<boolean>(false);
   const [disableButton, setDisableButton] = React.useState<boolean>(false);
   const { setUser } = useUserState();
   const navigate = useNavigate();
@@ -21,73 +34,43 @@ const SignUp = () => {
     event.preventDefault();
     setDisableButton(true);
 
-    if (!username || !masterPassword || !data) {
-      setDisableButton(false);
-      alert('Please fill all fields');
-      return;
-    }
-
-    if (masterPassword !== confirmMasterPassword) {
-      setDisableButton(false);
-      alert('Passwords do not match');
-      return;
-    }
-
-    if (masterPassword.length < 15) {
-      setDisableButton(false);
-      alert('Password must be at least 16 characters');
-      return;
-    }
-
-    const regex = /\d{2,}/;
-    if (!regex.test(masterPassword)) {
-      setDisableButton(false);
-      alert('Password must have at least 2 numbers');
-      return;
-    }
-
-    const regex2 = /[A-Z]/;
-    if (!regex2.test(masterPassword)) {
-      setDisableButton(false);
-      alert('Password must have at least 1 uppercase letter');
-      return;
-    }
-
-    const regex3 = /[a-z]/;
-    if (!regex3.test(masterPassword)) {
-      setDisableButton(false);
-      alert('Password must have at least 1 lowercase letter');
-      return;
-    }
-
-    const regex4 = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
-    if (!regex4.test(masterPassword)) {
-      setDisableButton(false);
-      alert('Password must have at least 2 special characters');
-      return;
-    }
-
-    signUp({
+    signUpValidator({
       username,
       masterPassword,
-      displayName,
+      confirmMasterPassword,
     })
-      .then((user) => {
-        user = user as User;
+      .then(() => {
+        signUp({
+          username,
+          masterPassword,
+          displayName,
+        })
+          .then((user) => {
+            user = user as User;
 
-        if (user) {
-          const redirectTo = localStorage.getItem('redirectTo') || '/';
+            if (user) {
+              const redirectTo = localStorage.getItem('redirectTo') || '/';
 
-          setUser(user);
-          navigate(redirectTo);
-        }
+              setUser(user);
+              navigate(redirectTo);
+            }
+          })
+          .catch((error) => {
+            setError(error);
+          })
+          .finally(() => {
+            setDisableButton(false);
+          });
       })
       .catch((error) => {
-        alert(error);
-      })
-      .finally(() => {
-        setDisableButton(false);
+        setError(error.message);
+        setOpen(true);
+        setDisableButton(error.disableButton);
       });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -141,6 +124,17 @@ const SignUp = () => {
           </Button>
         </Box>
       </Box>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Error on SignUp!</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {error ? error : 'An error has occurred on sign up. Please try again.'}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </SEO>
   );
 };
