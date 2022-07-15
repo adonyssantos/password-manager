@@ -48,6 +48,14 @@ const Nav = ({ type, handleCloseNavMenu }: NavProps) => {
         </MenuItem>
         <MenuItem
           onClick={() => {
+            navigate('/generator');
+            handleCloseNavMenu();
+          }}
+        >
+          Generator
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
             handleLogout();
             handleCloseNavMenu();
           }}
@@ -73,6 +81,14 @@ const Nav = ({ type, handleCloseNavMenu }: NavProps) => {
         >
           Sign Up
         </MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate('/generator');
+            handleCloseNavMenu();
+          }}
+        >
+          Generator
+        </MenuItem>
       </>
     );
   }
@@ -87,6 +103,9 @@ const Nav = ({ type, handleCloseNavMenu }: NavProps) => {
           <CustomLink to="/folders" component={Link}>
             Folders
           </CustomLink>
+          <CustomLink to="/generator" component={Link}>
+            Generator
+          </CustomLink>
           <CustomLink onClick={handleLogout} component={Button}>
             Sign Out
           </CustomLink>
@@ -98,6 +117,9 @@ const Nav = ({ type, handleCloseNavMenu }: NavProps) => {
           </CustomLink>
           <CustomLink to="/sign-up" component={Link}>
             Sign Up
+          </CustomLink>
+          <CustomLink to="/generator" component={Link}>
+            Generator
           </CustomLink>
         </>
       )}

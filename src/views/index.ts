@@ -4,6 +4,7 @@ export { default as Dashboard } from './dashboard';
 export { default as EditFolder } from './edit-folder';
 export { default as EditPassword } from './edit-password';
 export { default as Folders } from './folders';
+export { default as Generator } from './generator';
 export { default as Layout } from './layout';
 export { default as PrivateRouter } from './private-router';
 export { default as SignUp } from './signup';

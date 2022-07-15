@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useState, FormEvent, useEffect } from 'react';
 import { Loading, SEO } from '../components';
-import { addPassword, getFolders } from '../utils';
+import { addPassword, getFolders, generatePassword } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { useUserState } from '../hooks';
 import { PasswordParams, PasswordsFolders, PasswordsFolder } from '../types';
@@ -13,6 +13,7 @@ const AddPassword = () => {
   const navigate = useNavigate();
   const { user } = useUserState();
   const [selectedFolder, setSelectedFolder] = useState<PasswordsFolder>();
+  const [generatedPassword, setGeneratedPassword] = useState<string>(generatePassword());
 
   useEffect(() => {
     if (user && user.uid) {
@@ -75,7 +76,19 @@ const AddPassword = () => {
             <TextField margin="normal" required fullWidth id="name" label="Title" name="name" autoFocus />
             <TextField margin="normal" required fullWidth name="url" label="URL" type="url" id="url" />
             <TextField margin="normal" required fullWidth id="username" label="Username" name="username" />
-            <TextField margin="normal" required fullWidth name="key" label="Password" type="password" id="key" />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="key"
+              label="Password"
+              type="text"
+              id="key"
+              value={generatedPassword}
+              onChange={(event) => {
+                setGeneratedPassword(event.target.value);
+              }}
+            />
 
             <FormControl fullWidth>
               <InputLabel id="folderId">Folder</InputLabel>
@@ -103,6 +116,18 @@ const AddPassword = () => {
 
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} color="primary" disabled={disableButton}>
               Edit Password
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              variant="outlined"
+              sx={{ mt: 2 }}
+              color="primary"
+              onClick={() => {
+                setGeneratedPassword(generatePassword());
+              }}
+            >
+              Regenerate password
             </Button>
             <Button type="button" fullWidth variant="outlined" sx={{ mt: 2 }} color="primary" onClick={() => navigate('/passwords')}>
               Cancel

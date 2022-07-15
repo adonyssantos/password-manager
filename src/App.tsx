@@ -1,4 +1,16 @@
-import { AddPassword, AddFolder, Dashboard, Folders, Layout, PrivateRouter, SignIn, SignUp, EditFolder, EditPassword } from './views';
+import {
+  AddPassword,
+  AddFolder,
+  Dashboard,
+  Folders,
+  Layout,
+  PrivateRouter,
+  SignIn,
+  SignUp,
+  EditFolder,
+  EditPassword,
+  Generator,
+} from './views';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 const HomeApp = () => {
@@ -23,6 +35,7 @@ const HomeApp = () => {
         {/* Public routes */}
         <Route path="sign-in" element={<SignIn />} />
         <Route path="sign-up" element={<SignUp />} />
+        <Route path="generator" element={<Generator />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>
