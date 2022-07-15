@@ -109,16 +109,14 @@ const EditPassword = () => {
         ) : (
           <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 'sm', mt: 3 }}>
             <TextField
-              // margin="normal"
-              margin="dense"
+              margin="normal"
               required
               fullWidth
               id="name"
               label="Title"
               name="name"
               key="name"
-              // autoFocus
-
+              autoFocus
               value={password.name}
               onChange={(event) => {
                 const name = event.target.value;
