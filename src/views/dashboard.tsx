@@ -37,7 +37,12 @@ const Dashboard = () => {
           <Loading name="Getting passwords..." />
         ) : (
           passwordGroupByName?.map((passwordGroupByFolder, index) => (
-            <PasswordGroup key={passwordGroupByFolder.id} name={passwordGroupByFolder.name} type={index === 0 ? 'default' : ''}>
+            <PasswordGroup
+              key={passwordGroupByFolder.id}
+              name={passwordGroupByFolder.name}
+              qty={passwordGroupByFolder.qty}
+              type={index === 0 ? 'default' : ''}
+            >
               {passwordGroupByFolder.passwords.map((password) => (
                 <PasswordItem key={password.id} password={password} />
               ))}

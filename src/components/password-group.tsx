@@ -1,8 +1,15 @@
 import { List, Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
-import { useState, SyntheticEvent } from 'react';
+import { useState, SyntheticEvent, ReactNode } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const PasswordGroup = ({ children, type, name }: any) => {
+interface Props {
+  children: ReactNode;
+  type: string;
+  name: string;
+  qty: number;
+}
+
+const PasswordGroup = ({ children, type, name, qty }: Props) => {
   const [expanded, setExpanded] = useState<string | false>('default');
 
   const handleChange = (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
@@ -14,7 +21,7 @@ const PasswordGroup = ({ children, type, name }: any) => {
       <Accordion expanded={expanded === 'default'} onChange={handleChange('default')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="default-bh-content" id="default-bh-header">
           <Typography variant="h6" component="p" sx={{ flexShrink: 0 }}>
-            Default
+            Default ({qty})
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -28,7 +35,7 @@ const PasswordGroup = ({ children, type, name }: any) => {
     <Accordion expanded={expanded === name} onChange={handleChange(name)}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`${name}-bh-content`} id={`${name}-bh-header`}>
         <Typography variant="h6" component="p" sx={{ flexShrink: 0 }}>
-          {name}
+          {name} ({qty})
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
