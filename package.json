@@ -7,6 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "emulators": "npx firebase emulators:start",
+    "deploy:firestore": "npx firebase deploy --only firestore:rules",
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\"",
     "lint": "eslint src/ --ext .ts,.tsx, --fix",
