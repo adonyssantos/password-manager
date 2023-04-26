@@ -13,7 +13,7 @@ A password manager is an application that allows users to store and generate the
 
 ## Documentation
 
-For more info about this project you can see the [Wiki](https://github.com/adonyssantos/password-manager/wiki).
+For more info about this project you can see the [Wiki](./docs).
 
 ## Related
 
